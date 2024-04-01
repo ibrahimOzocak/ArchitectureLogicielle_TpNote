@@ -80,12 +80,10 @@
             })
             .then(response => {
                 if (response.ok) {
-                // Mettre à jour l'interface utilisateur ou afficher un message de confirmation
                 console.log('La question a été mise à jour avec succès !');
-                // Mettre à jour la liste des questions avec la question modifiée
+                // Met a jour la liste des questions
                 questionToUpdate.title = newTitle;
                 } else {
-                // Gérer les erreurs de mise à jour
                 console.error('Erreur lors de la mise à jour de la question :', response.status);
                 }
             })

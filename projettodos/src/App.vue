@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import Questionnaire from './components/Questionnaire.vue';
 
 export default {
@@ -45,7 +44,6 @@ export default {
               // Mettre à jour l'interface utilisateur
               this.fetchQuestionnaires();
           } else {
-              // Gérer les erreurs de création du questionnaire
               console.error('Erreur lors de la création du questionnaire :', response.status);
           }
       })
@@ -68,10 +66,8 @@ export default {
       .then(response => {
         if (response.ok) {
           console.log('Nom du questionnaire modifié avec succès !');
-          // Mettre à jour l'interface utilisateur
           this.fetchQuestionnaires();
         } else {
-          // Gérer les erreurs de modification du nom du questionnaire
           console.error('Erreur lors de la modification du nom du questionnaire :', response.status);
         }
       })
@@ -81,11 +77,11 @@ export default {
     },
 
     deleteQuestionnaire(questionnaireId) {
-    // Récupérer les questions associées au questionnaire
+    // Récupere les questions du questionnaire
       fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}/questions`)
           .then(response => response.json())
           .then(data => {
-              // Supprimer chaque question associée au questionnaire
+              // Supprime les questions du questionnaire
               const deletePromises = data.questions.map(question => {
                   return fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}/questions/${question.id}`, {
                       method: 'DELETE'
@@ -100,8 +96,9 @@ export default {
                   });
               });
 
-              // Une fois que toutes les questions sont supprimées, supprimer le questionnaire lui-même
+              // suprimme le questionnaire
               Promise.all(deletePromises)
+              // promise.all sert a verifier si toutes les questions sont supprimées
                   .then(() => {
                       fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}`, {
                           method: 'DELETE',
@@ -112,10 +109,8 @@ export default {
                       .then(response => {
                           if (response.ok) {
                               console.log('Questionnaire supprimé avec succès !');
-                              // Mettre à jour l'interface utilisateur
                               this.fetchQuestionnaires();
                           } else {
-                              // Gérer les erreurs de suppression du questionnaire
                               console.error('Erreur lors de la suppression du questionnaire :', response.status);
                           }
                       })
@@ -145,10 +140,8 @@ export default {
       .then(response => {
         if (response.ok) {
           console.log('Question ajoutée avec succès !');
-          // Si la question a été ajoutée avec succès, mettre à jour l'interface utilisateur
           this.fetchQuestionnaires();
         } else {
-          // Gérer les erreurs d'ajout de question
           console.error('Erreur lors de l\'ajout de la question :', response.status);
         }
       })

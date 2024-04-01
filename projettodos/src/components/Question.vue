@@ -13,7 +13,7 @@
   <script>
   export default {
     props: {
-      question: Object // Propriété reçue depuis le composant parent
+      question: Object
     },
     methods: {
         editQuestion: function() {
