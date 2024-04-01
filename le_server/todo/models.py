@@ -49,7 +49,7 @@ class Question(db.Model):
             "id": self.id,
             "title": self.title,
             "questionnaire_id": self.questionnaire_id,
-            "url_question": url_for('get_question', id=self.questionnaire_id, question_id=self.id, _external=True) + ' ou ' + url_for('get_question_2', id=self.id, _external=True)
+            "url_question": url_for('get_question', id=self.questionnaire_id, question_id=self.id, _external=True) + ' ou ' + url_for('get_question_avec_id', id=self.id, _external=True)
         }
 
     @classmethod
