@@ -32,11 +32,7 @@ class Questionnaire(db.Model):
         questionnaire = Questionnaire.query.get(id)
         if questionnaire is None:
             return None
-        return {
-            "id": questionnaire.id,
-            "name": questionnaire.name,
-            'questions':[question.to_json() for question in questionnaire.questions]
-        }
+        return questionnaire.to_json()
 
 class Question(db.Model):
     __tablename__ = 'question'

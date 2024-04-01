@@ -30,29 +30,35 @@ def get_questionnaire(id):
         abort(404)
     return jsonify(questionnaire)
 
-# PUT /questionnaires/<int:id>
+# PUT /questionnaires/<int:id>
 @app.route('/questionnaires/<int:id>', methods=['PUT'])
 def update_questionnaire(id):
-    questionnaire = Questionnaire.get_questionnaire(id)
+    questionnaire = Questionnaire.query.get(id)
     if questionnaire is None:
         abort(404)
     if not request.json:
         abort(400)
-    if 'name' in request.json and type(request.json['name']) != str:
+    new_name = request.json.get('name')
+    if new_name and isinstance(new_name, str):
+        questionnaire.name = new_name
+        db.session.commit()
+        return jsonify(questionnaire.to_json()), 201
+    else:
         abort(400)
-    questionnaire.name = request.json.get('name', questionnaire.name)
-    db.session.commit()
-    return jsonify(questionnaire.to_json())
+
+
 
 # DELETE /questionnaires/<int:id>
 @app.route('/questionnaires/<int:id>', methods=['DELETE'])
 def delete_questionnaire(id):
-    questionnaire = Questionnaire.get_questionnaire(id)
+    questionnaire = Questionnaire.query.get(id)
+    print(questionnaire)
     if questionnaire is None:
         abort(404)
     db.session.delete(questionnaire)
     db.session.commit()
     return jsonify({'result': True})
+
 
 # GET /questionnaires/<int:id>/questions
 @app.route('/questionnaires/<int:id>/questions', methods=['GET'])
@@ -68,9 +74,11 @@ def create_question(id):
     questionnaire = Questionnaire.get_questionnaire(id)
     if questionnaire is None:
         abort(404)
-    if not request.json or not 'title' in request.json or not 'questionType' in request.json:
+    if not request.json or not 'title' in request.json:
         abort(400)
-    question = Question(request.json['title'], request.json['questionType'], questionnaire.id)
+    title = request.json['title']
+    questionnaire_id = questionnaire['id']
+    question = Question(title=title, questionnaire_id=questionnaire_id)
     db.session.add(question)
     db.session.commit()
     return jsonify(question.to_json()), 201
@@ -110,7 +118,6 @@ def update_question(id, question_id):
     if 'questionType' in request.json and type(request.json['questionType']) != str:
         abort(400)
     question.title = request.json.get('title', question.title)
-    question.questionType = request.json.get('questionType', question.questionType)
     db.session.commit()
     return jsonify(question.to_json())
 
