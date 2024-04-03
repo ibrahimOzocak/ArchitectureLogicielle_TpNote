@@ -1,7 +1,7 @@
 <template>
     <div>
-      <div v-if="questionnaire">
-        <p><strong>Nom :</strong> {{ questionnaire.name }}</p>
+      <div class="questionnaire-content" v-if="questionnaire">
+        <p><strong>QUESTIONNAIRE :</strong> {{ questionnaire.name }}</p>
         <input type="button"
         class="btn btn-danger"
         value="MODIFIER" @click="modifierNomQuestionnaire">
@@ -11,7 +11,7 @@
         <input type="button"
         class="btn btn-danger"
         value="AJOUTER QUESTION" @click="ajouterQuestion">
-        <div>
+        <div class="questions-liste">
           <ul>
             <Question v-for="question in questions"
             :key="question.id"
@@ -28,7 +28,19 @@
       </div>
     </div>
   </template>
-  
+  <style>
+  .questionnaire-content {
+    border: 1.5px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .questionnaire-content p {
+    margin: 0;
+  }
+  .questions-liste {
+    margin-top: 10px;
+  }
+  </style>
   
   <script>
   import Question from './Question.vue';

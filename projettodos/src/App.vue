@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>MES Quizz</h1>
+    <h1>Mes Quizz</h1>
     <input type="button" value="Ajouter un questionnaire" @click="creerQuestionnaire">
     <ul>
       <Questionnaire v-for="questionnaire in questionnaires"
