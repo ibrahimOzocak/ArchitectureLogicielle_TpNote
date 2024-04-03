@@ -31,6 +31,7 @@ export default {
       const formData = {
           name: newQuestionnaire
       };
+      if (newQuestionnaire == null || newQuestionnaire == ""){return;}
       fetch('http://127.0.0.1:5000/questionnaires', {
           method: 'POST',
           headers: {
@@ -40,15 +41,15 @@ export default {
       })
       .then(response => {
           if (response.ok) {
-              console.log('Questionnaire créé avec succès !');
-              // Mettre à jour l'interface utilisateur
+              console.log('Questionnaire crÃ©Ã© avec succÃ¨s !');
+              // Mettre Ã  jour l'interface utilisateur
               this.fetchQuestionnaires();
           } else {
-              console.error('Erreur lors de la création du questionnaire :', response.status);
+              console.error('Erreur lors de la crÃ©ation du questionnaire :', response.status);
           }
       })
       .catch(error => {
-          console.error('Erreur lors de la création du questionnaire :', error);
+          console.error('Erreur lors de la crÃ©ation du questionnaire :', error);
       });
     },
     modifierNomQuestionnaire(questionnaireId) {
@@ -65,7 +66,7 @@ export default {
       })
       .then(response => {
         if (response.ok) {
-          console.log('Nom du questionnaire modifié avec succès !');
+          console.log('Nom du questionnaire modifiÃ© avec succÃ¨s !');
           this.fetchQuestionnaires();
         } else {
           console.error('Erreur lors de la modification du nom du questionnaire :', response.status);
@@ -77,7 +78,7 @@ export default {
     },
 
     deleteQuestionnaire(questionnaireId) {
-    // Récupere les questions du questionnaire
+    // RÃ©cupere les questions du questionnaire
       fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}/questions`)
           .then(response => response.json())
           .then(data => {
@@ -98,7 +99,7 @@ export default {
 
               // suprimme le questionnaire
               Promise.all(deletePromises)
-              // promise.all sert a verifier si toutes les questions sont supprimées
+              // promise.all sert a verifier si toutes les questions sont supprimÃ©es
                   .then(() => {
                       fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}`, {
                           method: 'DELETE',
@@ -108,7 +109,7 @@ export default {
                       })
                       .then(response => {
                           if (response.ok) {
-                              console.log('Questionnaire supprimé avec succès !');
+                              console.log('Questionnaire supprimÃ© avec succÃ¨s !');
                               this.fetchQuestionnaires();
                           } else {
                               console.error('Erreur lors de la suppression du questionnaire :', response.status);
@@ -120,7 +121,7 @@ export default {
                   });
           })
           .catch(error => {
-              console.error('Erreur lors de la récupération des questions associées au questionnaire :', error);
+              console.error('Erreur lors de la rÃ©cupÃ©ration des questions associÃ©es au questionnaire :', error);
           });
     },
     
@@ -130,7 +131,8 @@ export default {
         title: title,
         questionnaire_id: questionnaireId
       };
-      fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}/questions`, {
+      if (title == null || title == ""){return;}
+        fetch(`http://127.0.0.1:5000/questionnaires/${questionnaireId}/questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -139,7 +141,7 @@ export default {
       })
       .then(response => {
         if (response.ok) {
-          console.log('Question ajoutée avec succès !');
+          console.log('Question ajoutÃ©e avec succÃ¨s !');
           this.fetchQuestionnaires();
         } else {
           console.error('Erreur lors de l\'ajout de la question :', response.status);
@@ -156,7 +158,7 @@ export default {
           this.questionnaires = data.questionnaires;
         })
         .catch(error => {
-          console.error('Erreur lors de la récupération des questionnaires :', error);
+          console.error('Erreur lors de la rÃ©cupÃ©ration des questionnaires :', error);
         });
     }
   },
